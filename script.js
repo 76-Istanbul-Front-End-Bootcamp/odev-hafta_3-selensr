@@ -1,16 +1,27 @@
-function Animal(name){
-    this.name = name;
-}
+class Animal{
+    constructor(name, image){
+        this.name = name;
+        this.image = image;
+    }
 
-Animal.prototype.action = function(){
+
+action(e){
+  e.stopPropagation();
   document.getElementById(this.actionSoundName).play();
   
 }
 
-Animal.prototype.putInTheDocument = function(){
+getImage(){
+    let image = document.querySelector("img")
+    image.src= this.image;
+}
+
+
+putInTheDocument()
+{
     var petsTable = document.getElementById("petsTable");
     var petTR = document.createElement("tr");
-  
+    
     var petNameTD = document.createElement("td");
     petNameTD.textContent = this.name;
     petTR.appendChild(petNameTD);
@@ -26,30 +37,40 @@ Animal.prototype.putInTheDocument = function(){
     petTR.appendChild(petActionTD);
     
     petActionTDButton.onclick = this.action.bind(this);
-    petsTable.querySelector("tbody").appendChild(petTR)
+    petsTable.querySelector("tbody").appendChild(petTR);
+    
+    petTR.addEventListener('click', this.getImage.bind(this));
+  
+
+    }
 }
 
 
-function Cat(name){
-    Animal.call(this, name);
+class Cat extends Animal {
+  constructor(name, image) {
+    super(name, image);
+    this.name = name;
+    this.image = image;
     this.legs = 4;
-    this.actionText = "Meoow"
-    this.actionSoundName = "meow"
+    this.actionText = "Meoow";
+    this.actionSoundName = "meow";
+  }
 }
 
-Cat.prototype = Animal.prototype;
-
-function Monkey(name){
-    Animal.call(this, name);
+class Monkey extends Animal {
+  constructor(name, image) {
+    super(name, image);
+    this.name = name;
+    this.image = image;
     this.legs = 2;
     this.actionText = "Scream";
     this.actionSoundName = "scream";
+  }
 }
 
-Monkey.prototype = Animal.prototype;
 
-var Mila = new Cat("Mila");
+var Mila = new Cat("Mila", "https://i4.hurimg.com/i/hurriyet/75/1200x675/5f2ebbaf0f25441490314a5f.jpg");
 Mila.putInTheDocument();
 
-var Charlie = new Monkey("Charlie");
+var Charlie = new Monkey("Charlie", "https://i4.hurimg.com/i/hurriyet/75/750x422/55ea52f3f018fbb8f8787459.jpg");
 Charlie.putInTheDocument();
